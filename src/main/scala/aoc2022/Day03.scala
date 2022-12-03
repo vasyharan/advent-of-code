@@ -7,8 +7,7 @@ object Day03 {
     .map(line => line.splitAt(line.length / 2))
     .map { case (s1, s2) => s1.toSet.intersect(s2.toSet) }
     .tapEach(s => assert(s.size == 1))
-    .map(_.toList.head)
-    .map(toPriority)
+    .map(a => toPriority(a.head))
     .sum
 
   def solve02(s: Source): Int = s.getLines()
@@ -16,8 +15,7 @@ object Day03 {
     .grouped(3)
     .map(_.reduce(_.intersect(_)))
     .tapEach(s => assert(s.size == 1))
-    .map(_.toList.head)
-    .map(toPriority)
+    .map(a => toPriority(a.head))
     .sum
 
   private def toPriority(c: Char): Int = {
