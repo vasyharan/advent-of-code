@@ -1,7 +1,5 @@
 package aoc
 
-import aoc2021.Day11
-
 import scala.io.Source
 
 trait Problem:
@@ -17,9 +15,9 @@ trait Problem:
 
 @main
 def main() =
-  val problem: Problem = Day11
-  val sample = s"aoc${problem.year}/sample${problem.day}.txt"
-  val input = s"aoc${problem.year}/input${problem.day}.txt"
+  val problem: Problem = aoc2022.Day04
+  val sample = f"aoc${problem.year}%s/sample${problem.day}%02d.txt"
+  val input = f"aoc${problem.year}%s/input${problem.day}%02d.txt"
 
   val r1 = problem.solve1(Source.fromResource(sample))
   assert(r1 == problem.result1, s"expected=${problem.result1} actual=${r1}")
