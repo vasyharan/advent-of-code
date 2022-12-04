@@ -9,7 +9,6 @@ trait Problem:
   lazy val result2: Long
 
   def solve1(s: Source): Long
-
   def solve2(s: Source): Long
 
 @main

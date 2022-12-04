@@ -3,7 +3,12 @@ package aoc2021
 import scala.annotation.tailrec
 import scala.io.Source
 
-object Day09 {
+object Day09 extends aoc.Problem {
+  override val year: Int = 2021
+  override val day: Int = 9
+  override lazy val result1: Long = 15
+  override lazy val result2: Long = 1134
+
   case class Point(x: Int, y: Int)
 
   case class Grid(g: Array[Array[Int]]) {
@@ -24,12 +29,12 @@ object Day09 {
     def apply(x: Int, y: Int): Int = g(y)(x)
   }
 
-  def solve1(s: Source): Int = {
+  override def solve1(s: Source) = {
     val grid = Grid(s.getLines().map(_.split("").map(_.toInt)).toArray)
     findLowPoints(grid).map(grid(_)).map(_ + 1).sum
   }
 
-  def solve2(s: Source): Int = {
+  override def solve2(s: Source) = {
     val grid = Grid(s.getLines().map(_.split("").map(_.toInt)).toArray)
     findLowPoints(grid)
       .map(findBasin(grid, _))
@@ -65,10 +70,3 @@ object Day09 {
   private def isLowPoint(grid: Grid, point: Point) =
     grid.neighbours(point).forall(n => grid(point) < grid(n))
 }
-
-@main
-def run202109(): Unit =
-  assert(Day09.solve1(Source.fromResource("aoc2021/sample09.txt")) == 15)
-  println(Day09.solve1(Source.fromResource("aoc2021/input09.txt")))
-  assert(Day09.solve2(Source.fromResource("aoc2021/sample09.txt")) == 1134)
-  println(Day09.solve2(Source.fromResource("aoc2021/input09.txt")))

@@ -2,7 +2,12 @@ package aoc2021
 
 import scala.io.Source
 
-object Day08 {
+object Day08 extends aoc.Problem {
+  override val year: Int = 2021
+  override val day: Int = 8
+  override lazy val result1: Long = 26
+  override lazy val result2: Long = 61229
+
   def solve1(in: Source) = in
     .getLines()
     .map(_.split(" \\| ", 2))
@@ -69,10 +74,3 @@ object Day08 {
     )
   }
 }
-
-@main
-def run202108(): Unit =
-  assert(Day08.solve1(Source.fromResource("aoc2021/sample08.txt")) == 26)
-  println(Day08.solve1(Source.fromResource("aoc2021/input08.txt")))
-  assert(Day08.solve2(Source.fromResource("aoc2021/sample08.txt")) == 61229)
-  println(Day08.solve2(Source.fromResource("aoc2021/input08.txt")))

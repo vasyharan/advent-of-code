@@ -2,8 +2,13 @@ package aoc2022
 
 import scala.io.Source
 
-object Day03 {
-  def solve01(s: Source): Int = s
+object Day03 extends aoc.Problem {
+  override val year: Int = 2022
+  override val day: Int = 3
+  override lazy val result1: Long = 157
+  override lazy val result2: Long = 70
+
+  override def solve1(s: Source): Long = s
     .getLines()
     .map(line => line.splitAt(line.length / 2))
     .map { case (s1, s2) => s1.toSet.intersect(s2.toSet) }
@@ -11,7 +16,7 @@ object Day03 {
     .map(a => toPriority(a.head))
     .sum
 
-  def solve02(s: Source): Int = s
+  override def solve2(s: Source): Long = s
     .getLines()
     .map(_.toSet)
     .grouped(3)
@@ -26,10 +31,3 @@ object Day03 {
     else sys.error("unexpected char " + c)
   }
 }
-
-@main
-def run202203(): Unit =
-  assert(Day03.solve01(Source.fromResource("aoc2022/sample03.txt")) == 157)
-  println(Day03.solve01(Source.fromResource("aoc2022/input03.txt")))
-  assert(Day03.solve02(Source.fromResource("aoc2022/sample03.txt")) == 70)
-  println(Day03.solve02(Source.fromResource("aoc2022/input03.txt")))

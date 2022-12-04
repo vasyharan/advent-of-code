@@ -2,7 +2,12 @@ package aoc2022
 
 import scala.io.Source
 
-object Day02 {
+object Day02 extends aoc.Problem {
+  override val day: Int = 2
+  override val year: Int = 2022
+  override lazy val result1: Long = 15
+  override lazy val result2: Long = 12
+
   enum RPS(val score: Int):
     case Rock extends RPS(1)
     case Paper extends RPS(2)
@@ -20,25 +25,23 @@ object Day02 {
 
   case class Input(opponent: RPS, player: RPS)
 
-  def solve01(input: Source): Int =
-    input
-      .getLines()
-      .map(_.split(" ", 2))
-      .map { case Array(c1, c2) => Input(col1RPS(c1), col2RPS(c2)) }
-      .map { rs => rs.player.score + calcResult(rs).score }
-      .sum
+  override def solve1(s: Source): Long = s
+    .getLines()
+    .map(_.split(" ", 2))
+    .map { case Array(c1, c2) => Input(col1RPS(c1), col2RPS(c2)) }
+    .map { rs => rs.player.score + calcResult(rs).score }
+    .sum
 
-  def solve02(input: Source): Int =
-    input
-      .getLines()
-      .map(_.split(" ", 2))
-      .map { case Array(c1, c2) => (col1RPS(c1), col2RoundResult(c2)) }
-      .map {
-        case (rps, result @ Result.Draw) => result.score + rps.score
-        case (rps, result @ Result.Loss) => result.score + rps.beats.score
-        case (rps, result @ Result.Win)  => result.score + rps.beats.beats.score
-      }
-      .sum
+  override def solve2(s: Source): Long = s
+    .getLines()
+    .map(_.split(" ", 2))
+    .map { case Array(c1, c2) => (col1RPS(c1), col2RoundResult(c2)) }
+    .map {
+      case (rps, result @ Result.Draw) => result.score + rps.score
+      case (rps, result @ Result.Loss) => result.score + rps.beats.score
+      case (rps, result @ Result.Win)  => result.score + rps.beats.beats.score
+    }
+    .sum
 
   private def col1RPS(c: String): RPS = c match
     case "A" => RPS.Rock
@@ -60,8 +63,3 @@ object Day02 {
     else if input.opponent == input.player.beats then Result.Win
     else Result.Loss
 }
-
-@main
-def run202202(): Unit =
-  println(Day02.solve01(Source.fromResource("aoc2022/input02.txt")))
-  println(Day02.solve02(Source.fromResource("aoc2022/input02.txt")))

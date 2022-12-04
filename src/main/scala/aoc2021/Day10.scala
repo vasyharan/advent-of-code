@@ -3,8 +3,13 @@ package aoc2021
 import scala.annotation.tailrec
 import scala.io.Source
 
-object Day10 {
-  def solve1(s: Source): Int =
+object Day10 extends aoc.Problem {
+  override val year: Int = 2021
+  override val day: Int = 10
+  override lazy val result1: Long = 26397
+  override lazy val result2: Long = 288957
+
+  override def solve1(s: Source) =
     s.getLines()
       .flatMap(firstIllegalChar)
       .map {
@@ -15,7 +20,7 @@ object Day10 {
       }
       .sum
 
-  def solve2(s: Source): Long =
+  override def solve2(s: Source) =
     val scores = s
       .getLines()
       .map(parseLine)
@@ -76,10 +81,3 @@ object Day10 {
   private def isMatching(open: Char, close: Char): Boolean =
     close == closeOpen(open)
 }
-
-@main
-def run202110(): Unit =
-  assert(Day10.solve1(Source.fromResource("aoc2021/sample10.txt")) == 26397)
-  println(Day10.solve1(Source.fromResource("aoc2021/input10.txt")))
-  assert(Day10.solve2(Source.fromResource("aoc2021/sample10.txt")) == 288957)
-  println(Day10.solve2(Source.fromResource("aoc2021/input10.txt")))
