@@ -3,7 +3,8 @@ package aoc2021
 import scala.io.Source
 
 object Day08 {
-  def solve1(in: Source) = in.getLines()
+  def solve1(in: Source) = in
+    .getLines()
     .map(_.split(" \\| ", 2))
     .map { case Array(_, out) => out }
     .flatMap { s => s.strip().split(" ") }
@@ -11,11 +12,14 @@ object Day08 {
     .filter { len => len == 2 || len == 4 || len == 3 || len == 7 }
     .length
 
-  def solve2(in: Source) = in.getLines()
+  def solve2(in: Source) = in
+    .getLines()
     .map(_.split(" \\| ", 2))
     .map { case Array(in, out) =>
       val lookup: Map[Set[Char], Int] = mkLookup(in)
-      out.strip().split(" ")
+      out
+        .strip()
+        .split(" ")
         .map(_.toCharArray.toSet)
         .map(lookup.get(_).get)
         .mkString
@@ -51,7 +55,18 @@ object Day08 {
     val d6 = d(d6x)
     val d9 = d(d9x)
 
-    Map(d0 -> 0, d1 -> 1, d2 -> 2, d3 -> 3, d4 -> 4, d5 -> 5, d6 -> 6, d7 -> 7, d8 -> 8, d9 -> 9)
+    Map(
+      d0 -> 0,
+      d1 -> 1,
+      d2 -> 2,
+      d3 -> 3,
+      d4 -> 4,
+      d5 -> 5,
+      d6 -> 6,
+      d7 -> 7,
+      d8 -> 8,
+      d9 -> 9
+    )
   }
 }
 

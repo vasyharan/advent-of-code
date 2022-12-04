@@ -16,7 +16,8 @@ object Day10 {
       .sum
 
   def solve2(s: Source): Long =
-    val scores = s.getLines()
+    val scores = s
+      .getLines()
       .map(parseLine)
       .collect { case (mc, stack) if mc.isEmpty => stack }
       .map(closeOpens)
@@ -41,7 +42,7 @@ object Day10 {
     @tailrec
     def rec(cs: List[Char], stack: List[Char]): (Option[Char], List[Char]) =
       (cs, stack) match
-        case (Nil, _) => (None, stack)
+        case (Nil, _)                    => (None, stack)
         case (c :: tail, _) if isOpen(c) => rec(tail, c :: stack)
         case (c :: tail, s :: nextStack) if isClose(c) =>
           if isMatching(s, c) then rec(tail, nextStack)
@@ -54,15 +55,17 @@ object Day10 {
     @tailrec
     def rec(opens: List[Char], closes: List[Char]): List[Char] =
       opens match
-        case Nil => closes
+        case Nil       => closes
         case o :: tail => rec(tail, closeOpen(o) :: closes)
 
     rec(opens, Nil).reverse
   }
 
-  private def isOpen(c: Char): Boolean = c == '(' || c == '[' || c == '{' || c == '<'
+  private def isOpen(c: Char): Boolean =
+    c == '(' || c == '[' || c == '{' || c == '<'
 
-  private def isClose(c: Char): Boolean = c == ')' || c == ']' || c == '}' || c == '>'
+  private def isClose(c: Char): Boolean =
+    c == ')' || c == ']' || c == '}' || c == '>'
 
   private def closeOpen(open: Char): Char = open match
     case '(' => ')'
@@ -70,7 +73,8 @@ object Day10 {
     case '{' => '}'
     case '<' => '>'
 
-  private def isMatching(open: Char, close: Char): Boolean = close == closeOpen(open)
+  private def isMatching(open: Char, close: Char): Boolean =
+    close == closeOpen(open)
 }
 
 @main

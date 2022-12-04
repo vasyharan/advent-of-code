@@ -10,7 +10,12 @@ object Day09 {
     val size = Point(g.head.length, g.length)
 
     def neighbours(p: Point): List[Point] = {
-      List(Point(p.x + 1, p.y), Point(p.x - 1, p.y), Point(p.x, p.y + 1), Point(p.x, p.y - 1))
+      List(
+        Point(p.x + 1, p.y),
+        Point(p.x - 1, p.y),
+        Point(p.x, p.y + 1),
+        Point(p.x, p.y - 1)
+      )
         .filter { p => p.y >= 0 && p.y < size.y && p.x >= 0 && p.x < size.x }
     }
 
@@ -41,7 +46,8 @@ object Day09 {
       search match
         case Nil => basins
         case p :: tail =>
-          val ps = grid.neighbours(p)
+          val ps = grid
+            .neighbours(p)
             .filter(n => grid(n) != 9 && grid(n) > grid(p))
           rec(tail :++ ps, basins + p)
 
@@ -56,7 +62,8 @@ object Day09 {
       if isLowPoint(grid, point)
     } yield point
 
-  private def isLowPoint(grid: Grid, point: Point) = grid.neighbours(point).forall(n => grid(point) < grid(n))
+  private def isLowPoint(grid: Grid, point: Point) =
+    grid.neighbours(point).forall(n => grid(point) < grid(n))
 }
 
 @main

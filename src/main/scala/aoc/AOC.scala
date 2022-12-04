@@ -12,7 +12,6 @@ trait Problem:
 
   def solve2(s: Source): Long
 
-
 @main
 def main() =
   val problem: Problem = aoc2022.Day04

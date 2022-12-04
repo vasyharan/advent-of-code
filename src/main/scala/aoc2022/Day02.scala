@@ -9,8 +9,8 @@ object Day02 {
     case Scissors extends RPS(3)
 
     def beats: RPS = this match
-      case Rock => Scissors
-      case Paper => Rock
+      case Rock     => Scissors
+      case Paper    => Rock
       case Scissors => Paper
 
   enum Result(val score: Int):
@@ -21,20 +21,22 @@ object Day02 {
   case class Input(opponent: RPS, player: RPS)
 
   def solve01(input: Source): Int =
-    input.getLines()
+    input
+      .getLines()
       .map(_.split(" ", 2))
       .map { case Array(c1, c2) => Input(col1RPS(c1), col2RPS(c2)) }
       .map { rs => rs.player.score + calcResult(rs).score }
       .sum
 
   def solve02(input: Source): Int =
-    input.getLines()
+    input
+      .getLines()
       .map(_.split(" ", 2))
       .map { case Array(c1, c2) => (col1RPS(c1), col2RoundResult(c2)) }
       .map {
-        case (rps, result@Result.Draw) => result.score + rps.score
-        case (rps, result@Result.Loss) => result.score + rps.beats.score
-        case (rps, result@Result.Win) => result.score + rps.beats.beats.score
+        case (rps, result @ Result.Draw) => result.score + rps.score
+        case (rps, result @ Result.Loss) => result.score + rps.beats.score
+        case (rps, result @ Result.Win)  => result.score + rps.beats.beats.score
       }
       .sum
 

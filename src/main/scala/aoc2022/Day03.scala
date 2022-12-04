@@ -3,14 +3,16 @@ package aoc2022
 import scala.io.Source
 
 object Day03 {
-  def solve01(s: Source): Int = s.getLines()
+  def solve01(s: Source): Int = s
+    .getLines()
     .map(line => line.splitAt(line.length / 2))
     .map { case (s1, s2) => s1.toSet.intersect(s2.toSet) }
     .tapEach(s => assert(s.size == 1))
     .map(a => toPriority(a.head))
     .sum
 
-  def solve02(s: Source): Int = s.getLines()
+  def solve02(s: Source): Int = s
+    .getLines()
     .map(_.toSet)
     .grouped(3)
     .map(_.reduce(_.intersect(_)))

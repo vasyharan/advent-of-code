@@ -18,10 +18,12 @@ object Day11 extends aoc.Problem {
     override def toString: String = {
       val v = es.view.mapValues {
         case x if x == 10 => "x"
-        case x if x > 10 => "."
-        case x => s"${x}"
+        case x if x > 10  => "."
+        case x            => s"${x}"
       }
-      0.until(size).map { y => 0.until(size).map { x => v(Point(x, y)) }.mkString }.mkString("\n")
+      0.until(size)
+        .map { y => 0.until(size).map { x => v(Point(x, y)) }.mkString }
+        .mkString("\n")
     }
   }
 
@@ -37,7 +39,7 @@ object Day11 extends aoc.Problem {
         Point(p.x + 1, p.y),
         Point(p.x + 1, p.y + 1),
         Point(p.x, p.y + 1),
-        Point(p.x - 1, p.y + 1),
+        Point(p.x - 1, p.y + 1)
       ).filter { p => p.y >= 0 && p.y < size && p.x >= 0 && p.x < size }
     }
   }
@@ -57,16 +59,19 @@ object Day11 extends aoc.Problem {
     def rec(g: Grid, gen: Int): Long =
       val (gNext, numFlashes) = runStep(g)
       if numFlashes == 100 then gen
-      else
-        rec(gNext, gen + 1)
+      else rec(gNext, gen + 1)
 
     rec(fromSource(s), 1)
 
   private def fromSource(s: Source): Grid =
-    Grid(s.getLines()
-      .zipWithIndex
-      .flatMap { case s -> y => s.split("").zipWithIndex.map { case c -> x => Point(x, y) -> c.toInt } }
-      .toMap)
+    Grid(
+      s.getLines()
+        .zipWithIndex
+        .flatMap { case s -> y =>
+          s.split("").zipWithIndex.map { case c -> x => Point(x, y) -> c.toInt }
+        }
+        .toMap
+    )
 
   private def runStep(g: Grid): (Grid, Int) =
     val g1 = Grid(g.es.view.mapValues(_ + 1).toMap)
@@ -79,7 +84,9 @@ object Day11 extends aoc.Problem {
       es match
         case Nil => g
         case e :: tail =>
-          val g0 = (e :: Grid.neighbours(e)).foldLeft(g) { case acc -> p => Grid(acc.es.updatedWith(p)(_.map(_ + 1))) }
+          val g0 = (e :: Grid.neighbours(e)).foldLeft(g) { case acc -> p =>
+            Grid(acc.es.updatedWith(p)(_.map(_ + 1)))
+          }
           val flashes = Grid.neighbours(e).filter(p => g0.es(p) == 10)
           rec(g0, flashes :++ tail)
 
@@ -87,14 +94,16 @@ object Day11 extends aoc.Problem {
 
   private def countFlashes(g: Grid): (Grid, Int) =
     @tailrec
-    def rec(es: List[(Point, Int)], fs: List[(Point, Int)], c: Int): (Grid, Int) =
+    def rec(
+        es: List[(Point, Int)],
+        fs: List[(Point, Int)],
+        c: Int
+    ): (Grid, Int) =
       es match
         case Nil => (Grid(fs.toMap), c)
         case (p, en) :: tail =>
-          if en > 9 then
-            rec(tail, p -> 0 :: fs, c + 1)
-          else
-            rec(tail, (p, en) :: fs, c)
+          if en > 9 then rec(tail, p -> 0 :: fs, c + 1)
+          else rec(tail, (p, en) :: fs, c)
 
     rec(g.es.toList, Nil, 0)
 }
