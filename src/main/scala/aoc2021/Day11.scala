@@ -6,8 +6,8 @@ import scala.io.Source
 object Day11 extends aoc.Problem {
   val year = 2021
   val day = 11
-  lazy val result1 = 1656
-  lazy val result2 = 195
+  lazy val results1 = 1656 :: Nil
+  lazy val results2 = 195 :: Nil
 
   case class Point(x: Int, y: Int)
 

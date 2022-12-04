@@ -3,10 +3,10 @@ package aoc2022
 import scala.io.Source
 
 object Day02 extends aoc.Problem {
-  override val day: Int = 2
-  override val year: Int = 2022
-  override lazy val result1: Long = 15
-  override lazy val result2: Long = 12
+  override val day = 2
+  override val year = 2022
+  override lazy val results1 = 15 :: Nil
+  override lazy val results2 = 12 :: Nil
 
   enum RPS(val score: Int):
     case Rock extends RPS(1)

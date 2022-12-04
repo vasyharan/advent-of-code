@@ -4,10 +4,10 @@ import scala.annotation.tailrec
 import scala.io.Source
 
 object Day10 extends aoc.Problem {
-  override val year: Int = 2021
-  override val day: Int = 10
-  override lazy val result1: Long = 26397
-  override lazy val result2: Long = 288957
+  override val year = 2021
+  override val day = 10
+  override lazy val results1 = 26397 :: Nil
+  override lazy val results2 = 288957 :: Nil
 
   override def solve1(s: Source) =
     s.getLines()

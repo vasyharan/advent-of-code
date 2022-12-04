@@ -3,10 +3,10 @@ package aoc2022
 import scala.io.Source
 
 object Day04 extends aoc.Problem {
-  override val year: Int = 2022
-  override val day: Int = 4
-  override lazy val result1: Long = 2
-  override lazy val result2: Long = 4
+  override val year = 2022
+  override val day = 4
+  override lazy val results1 = 2 :: Nil
+  override lazy val results2 = 4 :: Nil
 
   case class Range(start: Int, end: Int) {
     assert(end >= start)

@@ -3,10 +3,10 @@ package aoc2022
 import scala.io.Source
 
 object Day01 extends aoc.Problem {
-  override val year: Int = 2022
-  override val day: Int = 1
-  override lazy val result1: Long = 24000
-  override lazy val result2: Long = 45000
+  override val year = 2022
+  override val day = 1
+  override lazy val results1 = 24000 :: Nil
+  override lazy val results2 = 45000 :: Nil
 
   override def solve1(s: Source): Long =
     val (max, _) = calories(s).foldLeft((0, 0)) {

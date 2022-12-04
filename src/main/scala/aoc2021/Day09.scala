@@ -4,10 +4,10 @@ import scala.annotation.tailrec
 import scala.io.Source
 
 object Day09 extends aoc.Problem {
-  override val year: Int = 2021
-  override val day: Int = 9
-  override lazy val result1: Long = 15
-  override lazy val result2: Long = 1134
+  override val year = 2021
+  override val day = 9
+  override lazy val results1 = 15 :: Nil
+  override lazy val results2 = 1134 :: Nil
 
   case class Point(x: Int, y: Int)
 
