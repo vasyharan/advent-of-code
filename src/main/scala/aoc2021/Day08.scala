@@ -2,7 +2,7 @@ package aoc2021
 
 import scala.io.Source
 
-object Day08 extends aoc.Problem {
+object Day08 extends aoc.Problem[Long] {
   override val year = 2021
   override val day = 8
   override lazy val results1 = 26 :: Nil

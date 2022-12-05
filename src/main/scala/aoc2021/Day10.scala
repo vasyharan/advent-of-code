@@ -3,7 +3,7 @@ package aoc2021
 import scala.annotation.tailrec
 import scala.io.Source
 
-object Day10 extends aoc.Problem {
+object Day10 extends aoc.Problem[Long] {
   override val year = 2021
   override val day = 10
   override lazy val results1 = 26397 :: Nil

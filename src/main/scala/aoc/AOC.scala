@@ -2,18 +2,18 @@ package aoc
 
 import scala.io.Source
 
-trait Problem:
+trait Problem[A]:
   val year: Int
   val day: Int
-  lazy val results1: List[Long]
-  lazy val results2: List[Long]
+  lazy val results1: List[A]
+  lazy val results2: List[A]
 
-  def solve1(s: Source): Long
-  def solve2(s: Source): Long
+  def solve1(s: Source): A
+  def solve2(s: Source): A
 
 @main
 def main() =
-  val problem: Problem = aoc2022.Day04
+  val problem: Problem[?] = aoc2022.Day04
   val input = f"aoc${problem.year}%s/input${problem.day}%02d.txt"
 
   def sampleResource(idx: Int) =
