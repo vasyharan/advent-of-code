@@ -13,20 +13,20 @@ trait Problem[A]:
 
 @main
 def main() =
-  val problem: Problem[?] = aoc2022.Day05
+  val problem: Problem[?] = aoc2022.Day06
   val input = f"aoc${problem.year}%s/input${problem.day}%02d.txt"
 
   def sampleResource(idx: Int) =
     f"aoc${problem.year}%s/sample${problem.day}%02d_${idx + 1}%02d.txt"
 
-  for { (expected, idx) <- problem.results1.zipWithIndex } {
-    val actual = problem.solve1(Source.fromResource(sampleResource(idx)))
-    assert(expected == actual, s"expected=${expected} actual=${actual}")
+  for { (ex, idx) <- problem.results1.zipWithIndex } {
+    val ac = problem.solve1(Source.fromResource(sampleResource(idx)))
+    assert(ex == ac, s"test=${idx + 1} expected=${ex} actual=${ac}")
   }
   println(problem.solve1(Source.fromResource(input)))
 
-  for { (expected, idx) <- problem.results2.zipWithIndex } {
-    val actual = problem.solve2(Source.fromResource(sampleResource(idx)))
-    assert(expected == actual, s"expected=${expected} actual=${actual}")
+  for { (ex, idx) <- problem.results2.zipWithIndex } {
+    val ac = problem.solve2(Source.fromResource(sampleResource(idx)))
+    assert(ex == ac, s"test=${idx + 1} expected=${ex} actual=${ac}")
   }
   println(problem.solve2(Source.fromResource(input)))
