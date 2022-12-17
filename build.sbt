@@ -4,5 +4,7 @@ ThisBuild / scalaVersion := "3.2.1"
 lazy val root = (project in file("."))
   .settings(
     name := "aoc",
-    libraryDependencies ++= Seq(),
+    libraryDependencies ++= Seq(
+      "org.typelevel" %% "cats-core" % "2.9.0"
+    )
   )
