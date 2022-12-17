@@ -13,7 +13,7 @@ trait Problem[A]:
 
 @main
 def main() =
-  val problem: Problem[?] = aoc2022.Day09
+  val problem: Problem[?] = aoc2022.Day10
   val input = f"aoc${problem.year}%s/input${problem.day}%02d.txt"
 
   def sampleResource(idx: Int) =
