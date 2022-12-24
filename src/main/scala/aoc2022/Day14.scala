@@ -96,8 +96,8 @@ object Day14 extends aoc.Problem[Int] {
     case object OutOfBounds extends StepResult
 
   override def solve1(s: Source): Int =
-    import Cell._
-    import StepResult._
+    import Cell.*
+    import StepResult.*
 
     val lines = parseInput(s)
     val spawn = Point(500, 0)
@@ -125,16 +125,20 @@ object Day14 extends aoc.Problem[Int] {
       searchSteps(possibleSteps, grid, g)
 
     @tailrec
-    def runSimulation(grid: Grid, grain: Point, atRest: Int): Int =
-      runStep(grid, grain) match {
-        case AtRest(p) =>
-          runSimulation(grid.update(grain, Sand).get, spawn, atRest + 1)
-        case Falling(p)  => runSimulation(grid, p, atRest)
-        case OutOfBounds => atRest
-      }
+    def runSimulation(grid: Grid, stack: List[Point], atRest: Int): Int =
+      stack match
+        case Nil => sys.error("appease the exhaustiveness checker")
+        case stack @ (head :: tail) =>
+          runStep(grid, head) match {
+            case OutOfBounds => atRest
+            case AtRest(p) =>
+              runSimulation(grid.update(head, Sand).get, tail, atRest + 1)
+            case Falling(p) =>
+              runSimulation(grid, p :: stack, atRest)
+          }
 
     val grid = Grid(min, max, lines)
-    runSimulation(grid, spawn, 0)
+    runSimulation(grid, spawn :: Nil, 0)
 
   override def solve2(s: Source): Int = ???
 
