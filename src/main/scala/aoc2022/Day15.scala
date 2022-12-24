@@ -2,19 +2,42 @@ package aoc2022
 
 import scala.io.Source
 
-object Day15 extends aoc.Problem[Int] {
+object Day15 extends aoc.Problem[Long] {
   override val year: Int = 2022
   override val day: Int = 15
-  override lazy val results1: List[Int] = 26 :: Nil
-  override lazy val results2: List[Int] = ???
+  override lazy val results1: List[Long] = 26 :: Nil
+  override lazy val results2: List[Long] = 56000011 :: Nil
 
   case class Point(x: Int, y: Int) {
     def manhattanDistance(o: Point): Int = Math.abs(x - o.x) + Math.abs(y - o.y)
   }
   case class XRange(start: Int, end: Int)
 
-  override def solve1(s: Source): Int =
+  override def solve1(s: Source): Long =
     val (row, sensorBeacons) = parseInput(s)
+    eliminateBeacon(row, sensorBeacons)
+      .foldLeft(0) { case (acc, XRange(start, end)) =>
+        acc + (end - start)
+      }
+
+  override def solve2(s: Source): Long =
+    val (row, sensorBeacons) = parseInput(s)
+    val max = row * 2
+    (0 to max)
+      .map { row =>
+        val ranges = eliminateBeacon(row, sensorBeacons).map(xr =>
+          XRange(Math.max(0, xr.start), Math.min(max, xr.end))
+        )
+        (row, ranges)
+      }
+      .filter((row, ranges) => ranges.size > 1)
+      // .tapEach(println)
+      .map((y, ranges) => Point(ranges.head.end + 1, y))
+      // .tapEach(println)
+      .map(p => p.x * 4000000L + p.y)
+      .head
+
+  private def eliminateBeacon(row: Int, sensorBeacons: List[(Point, Point)]) =
     sensorBeacons
       .foldLeft(List.empty[XRange]) { case (acc, (s, b)) =>
         val d = s.manhattanDistance(b)
@@ -32,13 +55,7 @@ object Day15 extends aoc.Problem[Int] {
           else r :: p :: tail
       }
       .reverse
-      // .tapEach(s => println(s"merged: ${s}"))
-      .foldLeft(0) { case (acc, XRange(start, end)) =>
-        acc + (end - start)
-      }
-
-  override def solve2(s: Source): Int =
-    ???
+    // .tapEach(s => println(s"merged: ${s}"))
 
   private def parseInput(s: Source): (Int, List[(Point, Point)]) =
     val (s1, s2) = s.getLines().splitAt(1)
