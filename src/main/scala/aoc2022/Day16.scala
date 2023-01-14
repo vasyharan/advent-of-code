@@ -59,36 +59,66 @@ object Day16 extends aoc.Problem[Int] {
     val flowRooms = cave.rooms.filter((k, v) => v.flowRate > 0)
     val dm = calcDistances(cave)
 
-    def edges(s: SearchState): Vector[SearchState] = {
-      val r1 = cave.rooms(s.room)
-      flowRooms
-        .filterNot { (k, _) => s.open.contains(k) }
-        .map((k, r) => {
-          val remaining = s.remaining - dm(s.room, k).toInt - 1
-          SearchState(
-            remaining = remaining,
-            room = k,
-            open = s.open + k,
-            pressure = s.pressure + r.flowRate * remaining
-          )
-        })
-        .filter { _.remaining > 0 }
-        .toVector
-    }
-
     def search(s: Seq[SearchState], b: SearchState): SearchState =
       s match {
         case Seq() => b
         case head +: tail =>
           val nextBest = if head.pressure > b.pressure then head else b
-          search(edges(head) ++ tail, nextBest)
+          search(edges(head, flowRooms, dm) ++ tail, nextBest)
       }
 
     val initial = SearchState(30, "AA", Set.empty, 0)
     val best = search(Vector(initial), initial)
     best.pressure
 
-  def solve2(s: Source): Int = ???
+  def solve2(s: Source): Int =
+    val cave = parseInput(s)
+    val flowRooms = cave.rooms.filter((k, v) => v.flowRate > 0)
+    val dm = calcDistances(cave)
+
+    def search(
+        s: Seq[SearchState],
+        b: Map[Set[String], Int]
+    ): Map[Set[String], Int] =
+      s match {
+        case Seq() => b
+        case head +: tail =>
+          val nextB = b.updatedWith(head.open) {
+            case None => Some(head.pressure)
+            case Some(pressure) =>
+              if head.pressure > pressure then Some(head.pressure)
+              else Some(pressure)
+          }
+          search(edges(head, flowRooms, dm) ++ tail, nextB)
+      }
+
+    val initial = SearchState(26, "AA", Set.empty, 0)
+    val results = search(Vector(initial), Map.empty)
+    val combined = for
+      (open1, pressure1) <- results
+      (open2, pressure2) <- results if open1.intersect(open2).isEmpty
+    yield pressure1 + pressure2
+    combined.max
+
+  private def edges(
+      s: SearchState,
+      flowRooms: Map[String, Room],
+      dm: Matrix
+  ): Vector[SearchState] = {
+    flowRooms
+      .filterNot { (k, _) => s.open.contains(k) }
+      .map((k, r) => {
+        val remaining = s.remaining - dm(s.room, k).toInt - 1
+        SearchState(
+          remaining = remaining,
+          room = k,
+          open = s.open + k,
+          pressure = s.pressure + r.flowRate * remaining
+        )
+      })
+      .filter { _.remaining > 0 }
+      .toVector
+  }
 
   private def parseInput(s: Source) =
     def parseLine(valve: String, flowRate: String, leadsTo: String) =
